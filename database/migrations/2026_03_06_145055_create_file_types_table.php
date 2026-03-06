@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('company_certificates', function (Blueprint $table) {
+        Schema::create('file_types', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('company_id')->constrained('companies'); // ID da empresa
-            $table->string('file'); // Arquivo com certificado ICP-Brasil com extensão .pfx ou .p12
-            $table->string('password'); // Senha do certificado ICP-Brasil
+            $table->foreignId('company_id')->constrained('companies'); // Empresa associada ao tipo de arquivo
+            $table->string('name')->unique(); // Nome do tipo de arquivo, ex.: 'invoice', 'contract', 'receipt', etc.
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('company_certificates');
+        Schema::dropIfExists('file_types');
     }
 };

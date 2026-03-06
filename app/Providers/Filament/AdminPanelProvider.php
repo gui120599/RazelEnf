@@ -2,7 +2,8 @@
 
 namespace App\Providers\Filament;
 
-use App\Filament\Pages\Tenancy\RegisterCompanies;
+use App\Filament\Pages\Tenancy\EditCompanyProfile;
+use App\Filament\Pages\Tenancy\RegisterCompany;
 use App\Http\Middleware\ApplyTenantScopes;
 use App\Models\Company;
 use Filament\Http\Middleware\Authenticate;
@@ -30,7 +31,9 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->tenant(Company::class, ownershipRelationship: 'company')
+            ->tenant(Company::class)
+            ->tenantRegistration(RegisterCompany::class)
+            ->tenantProfile(EditCompanyProfile::class)
             ->registration()
             ->login()
             ->colors([

@@ -28,7 +28,6 @@ class User extends Authenticatable implements HasTenants
         'name',
         'email',
         'password',
-        'is_master',
     ];
 
     /**
@@ -51,19 +50,9 @@ class User extends Authenticatable implements HasTenants
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'is_master' => 'boolean',
         ];
     }
 
-    /**
-     * Check if the user is a master user.
-     *
-     * @return bool
-     */
-    public function isMaster(): bool
-    {
-        return $this->is_master === true; // ou use uma coluna 'role' === 'master'
-    }
 
     /**
      * The companies that belong to the user.
@@ -81,7 +70,7 @@ class User extends Authenticatable implements HasTenants
      * @param Panel $panel
      * @return array<Company>|Collection<Company>
      */
-    public function getTenants(Panel $panel): array|Collection
+    public function getTenants(Panel $panel): Collection
     {
         return $this->companies;
     }
@@ -94,6 +83,6 @@ class User extends Authenticatable implements HasTenants
      */
     public function canAccessTenant(Model $tenant): bool
     {
-        return $this->companies->contains($tenant);
+        return $this->companies()->whereKey($tenant)->exists();
     }
 }

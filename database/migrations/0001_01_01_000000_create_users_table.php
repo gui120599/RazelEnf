@@ -2,6 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -13,11 +15,12 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->string('is_master')->default(false);
+            $table->string('name'); 
+            $table->string('email')->unique(); 
+            $table->timestamp('email_verified_at')->nullable(); 
+            $table->string('password'); 
+            $table->string('avatar')->nullable(); // URL do avatar do usuário
+            $table->string('is_superAdmin')->default(false); // Indica se o usuário é um super administrador
             $table->rememberToken();
             $table->timestamps();
         });
@@ -36,6 +39,14 @@ return new class extends Migration
             $table->longText('payload');
             $table->integer('last_activity')->index();
         });
+
+        DB::table('users')->insert([
+            'name' => 'Admin Razeltec',
+            'email' => 'admin@razeltec.com.br',
+            'password' => Hash::make('password'), // Senha padrão para o usuário admin
+            'is_superAdmin' => true, // Define o usuário como super administrador
+        ]);
+        
     }
 
     /**

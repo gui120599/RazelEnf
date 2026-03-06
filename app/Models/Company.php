@@ -19,6 +19,7 @@ class Company extends Model
      */
     protected $fillable = [
         'name',
+        'slug',
         'image',
         'accountId',
         'tradeName',
@@ -73,7 +74,7 @@ class Company extends Model
         ];
     }
 
-    public function users(): BelongsToMany
+    public function members(): BelongsToMany
     {
         return $this->belongsToMany(User::class);
     }
