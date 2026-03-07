@@ -41,8 +41,10 @@ return new class extends Migration
         });
 
         Schema::create('file_provider', function (Blueprint $table) {
+            $table->id();
             $table->foreignId('provider_id')->constrained('providers');
             $table->foreignId('file_id')->constrained('files');
+            $table->timestamps();
         });
     }
 

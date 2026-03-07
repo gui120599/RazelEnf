@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('image')->nullable(); // Imagem da organização
             $table->string('accountId')->nullable(); // ID da conta associada
             $table->string('tradeName')->nullable(); // Nome fantasia
-            $table->integer('federalTaxNumber')->nullable(); // CNPJ
+            $table->bigInteger('federalTaxNumber')->nullable(); // CNPJ
             $table->enum('taxRegime', ['isento', 'microempreendedorIndividual', 'simplesNacional', 'lucroPresumido', 'lucroReal', 'none'])->nullable(); // Regime tributário
 
             $table->string('state')->nullable(); // Estado, ex.: SP, RJ, AC, padrão ISO 3166-2 ALFA 2.
@@ -53,15 +53,17 @@ return new class extends Migration
             $table->enum('specialTaxRegime', ['automatico', 'nenhum', 'microempresaMunicipal', 'estimativa', 'sociedadeDeProfissionais', 'cooperativa', 'microempreendedorIndividual', 'microempresarioEmpresaPequenoPorte'])->nullable(); // Tipo do regime especial de tributação
             $table->integer('serie'); // Serie para a emissão NFe
             $table->bigInteger('number'); // Número para a emissão NFe
-            $table->integer('securityCredentialId')->nullable(); // Id do código de segurança do contribuinte
+            $table->bigInteger('securityCredentialId')->nullable(); // Id do código de segurança do contribuinte
             $table->string('securityCredentialCode')->nullable(); // Código de segurança do contribuinte
             $table->enum('type', ['default', 'nFe', 'nFCe'])->nullable(); // Tipo de emissão
             $table->timestamps();
         });
 
         Schema::create('company_user', function (Blueprint $table) {
+            $table->id();
             $table->foreignId('company_id')->constrained('companies');
             $table->foreignId('user_id')->constrained('users');
+            $table->timestamps();
         });
 
         DB::table('companies')->insert([
@@ -71,8 +73,8 @@ return new class extends Migration
             'federalTaxNumber' => 52268704000143, // CNPJ fictício
             'taxRegime' => 'simplesNacional',
             'state' => 'SP',
-            'city_code' => '3550308', // Código do município de São Paulo segundo o IBGE
-            'city_name' => 'São Paulo',
+            'codeCity' => '3550308', // Código do município de São Paulo segundo o IBGE
+            'nameCity' => 'São Paulo',
             'district' => 'Centro',
             'street' => 'Rua da Consolação',
             'number' => '1234',

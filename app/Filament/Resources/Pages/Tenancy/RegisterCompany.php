@@ -27,7 +27,7 @@ class RegisterCompany extends RegisterTenant
     {
         $company = Company::create($data);
 
-        $company->members()->attach(auth()->user());
+        $company->members()->attach(auth()->user);
 
         return $company;
     }

@@ -15,10 +15,10 @@ class IBGEServices
             'Accept' => 'application/json',
         ])
             ->get('https://viacep.com.br/ws/' . $search . '/json/');
-        if ($reponse->failed()) {
+        if ($reponse->failed) {
             return [];
         }
-        return $reponse->json() ?? [];
+        return $reponse->json ?? [];
     }
 
     public static function ufs(): array
@@ -29,12 +29,12 @@ class IBGEServices
             ->get('https://servicodados.ibge.gov.br/api/v1/localidades/estados');
 
         // Verifica se a requisição falhou e retorna um array vazio.
-        if ($response->failed()) {
+        if ($response->failed) {
             return [];
         }
 
         // Decodifica a resposta JSON para um array PHP.
-        $estados = $response->json();
+        $estados = $response->json ?? [];
 
         // Prepara o array no formato esperado pelo Filament: ['sigla' => 'nome']
         $opcoes = [];
@@ -59,11 +59,11 @@ class IBGEServices
             // Note o uso da variável $uf na URL (interpolação de string)
             ->get("https://servicodados.ibge.gov.br/api/v1/localidades/estados/{$uf}/municipios?orderBy=nome");
 
-        if ($response->failed()) {
+        if ($response->failed) {
             return [];
         }
 
-        $cidades = $response->json();
+        $cidades = $response->json ?? [];
         $opcoes = [];
 
         if (is_array($cidades)) {
