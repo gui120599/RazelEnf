@@ -43,7 +43,9 @@ return new class extends Migration
         Schema::create('file_provider', function (Blueprint $table) {
             $table->id();
             $table->foreignId('provider_id')->constrained('providers');
-            $table->foreignId('file_id')->constrained('files');
+            $table->string('name'); // Nome do arquivo associado ao fornecedor
+            $table->foreignId('file_type_id')->constrained('file_types'); // Tipo do arquivo associado ao fornecedor
+            $table->string('url')->nullable(); // URL do arquivo associado ao fornecedor
             $table->timestamps();
         });
     }

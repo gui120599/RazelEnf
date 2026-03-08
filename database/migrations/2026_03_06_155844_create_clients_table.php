@@ -48,6 +48,15 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+
+        Schema::create('file_client', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('client_id')->constrained('clients');
+            $table->string('name'); // Nome do arquivo associado ao cliente
+            $table->foreignId('file_type_id')->constrained('file_types'); // Tipo do arquivo associado ao cliente
+            $table->string('url')->nullable(); // URL do arquivo associado ao cliente
+            $table->timestamps();
+        });
     }
 
     /**

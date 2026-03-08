@@ -18,11 +18,11 @@ return new class extends Migration
             $table->string('description'); // Descrição do produto
             $table->boolean('is_menu')->default(false); // Indica se o produto é do cardápio
             $table->foreignId('category_id')->constrained('categories'); // Categoria do produto
-            $table->string('type')->nullable(); // Ex.: 'produto', 'serviço', 'combo'
+            $table->string('type')->nullable(); // Ex.: 'produto', 'serviço', 'combo' ENUMS DO LARAVEL
             $table->boolean('inventoryControl')->default(false); // Indica se o produto tem controle de estoque
             $table->string('seasoning')->nullable(); // Ex: 'Muçarela, tomate, orégano'
             $table->string('image')->nullable(); // Imagem do produto
-            $table->string('unit')->nullable(); // Unidade de medida, ex.: 'un', 'kg', 'l'
+            $table->string('unit')->nullable(); // Unidade de medida, ex.: 'un', 'kg', 'l' ENUMS DO LARAVEL
             $table->decimal('priceSale',10,2)->nullable(); // Preço de venda
             $table->string('ncm')->nullable(); // Nomenclatura Comum do Mercosul
             $table->string('cest')->nullable()->default('0000000'); // Código Especificador da Substituição Tributária
