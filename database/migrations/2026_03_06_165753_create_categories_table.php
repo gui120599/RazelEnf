@@ -17,7 +17,9 @@ return new class extends Migration
             $table->string('name');
             $table->text('description')->nullable();
             $table->string('image')->nullable(); // URL da imagem da categoria
+            $table->string('icon')->nullable(); // URL do ícone da categoria
             $table->boolean('is_menu')->default(false); // Indica se a categoria é do cardápio
+            $table->integer('order_menu')->nullable(); // Ordem da categoria, caso haja mais de uma categoria por empresa
 
             $table->timestamps();
             $table->softDeletes();

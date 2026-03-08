@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('name'); // Nome do produto
             $table->string('description'); // Descrição do produto
             $table->boolean('is_menu')->default(false); // Indica se o produto é do cardápio
+            $table->integer('order_menu')->nullable(); // Ordem do produto no cardápio
             $table->foreignId('category_id')->constrained('categories'); // Categoria do produto
             $table->string('type')->nullable(); // Ex.: 'produto', 'serviço', 'combo' ENUMS DO LARAVEL
             $table->boolean('inventoryControl')->default(false); // Indica se o produto tem controle de estoque
@@ -27,7 +28,7 @@ return new class extends Migration
             $table->string('ncm')->nullable(); // Nomenclatura Comum do Mercosul
             $table->string('cest')->nullable()->default('0000000'); // Código Especificador da Substituição Tributária
             $table->string('ean')->nullable()->default('SEM GTIN'); // Código de Barras (GTIN)
-            $table->string('codigo_beneficio_fiscal_uf')->nullable();
+            $table->string('codigo_beneficio_fiscal_uf')->nullable(); // Código de benefício fiscal do estado para o produto
             $table->string('cfop')->nullable(); // Código Fiscal de Operações e Prestações
             $table->string('csosn')->nullable(); // Código de Situação da Operação no Simples Nacional
             $table->string('origin')->nullable(); // Origem do produto
@@ -43,6 +44,8 @@ return new class extends Migration
         Schema::create('product_images', function (Blueprint $table) {
             $table->foreignId('product_id')->constrained('products'); // Produto associado à imagem
             $table->string('image'); // URL da imagem do produto
+            $table->string('order')->nullable(); // Ordem da imagem, caso haja mais de uma imagem por produto
+            $table->timestamps();
         });
     }
 

@@ -12,22 +12,16 @@ class Company extends Model
 {
     use HasFactory, SoftDeletes;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'name',
-        'slug',
-        'image',
-        'accountId',
-        'tradeName',
-        'federalTaxNumber',
-        'taxRegime',
+        'cnpj',
+        'stateRegistration',
+        'municipalRegistration',
+        'email',
+        'phone',
         'state',
-        'city_code',
-        'city_name',
+        'codeCity',
+        'nameCity',
         'district',
         'additionalInformation',
         'street',
@@ -36,64 +30,61 @@ class Company extends Model
         'country',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
+    // Atributos adicionais para o modelo Company
     protected $casts = [
-        'federalTaxNumber' => 'integer',
+        'is_menu' => 'boolean', // Indica se a empresa é do cardápio
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
         'deleted_at' => 'datetime',
     ];
 
-    /**
-     * The attributes that should have default values.
-     *
-     * @var array<string, mixed>
-     */
-    protected $attributes = [
-        'number' => 'S/N',
-    ];
+    // Relacionamentos
 
-    /**
-     * Get the tax regime values.
-     *
-     * @return array<string>
-     */
-    public static function getTaxRegimes(): array
+    // Uma empresa pode ter muitos usuários (relação muitos-para-muitos)
+    public function users(): BelongsToMany
     {
-        return [
-            'isento',
-            'microempreendedorIndividual',
-            'simplesNacional',
-            'lucroPresumido',
-            'lucroReal',
-            'none',
-        ];
+        return $this->belongsToMany(User::class, 'company_user');
     }
 
-    public function members(): BelongsToMany
-    {
-        return $this->belongsToMany(User::class);
-    }
-
-    /**
-     * Chave estrengeira em CompanyCertificate
-     * @return HasMany
-     */
+    // Uma empresa pode ter muitos certificados
     public function certificates(): HasMany
     {
         return $this->hasMany(CompanyCertificate::class);
     }
 
-    /**
-     * Chave estrangeira em CompanyStateTax
-     * @return HasMany
-     */
+    // Uma empresa pode ter muitos impostos estaduais
     public function stateTaxes(): HasMany
     {
         return $this->hasMany(CompanyStateTax::class);
+    }
+
+    // Uma empresa pode ter muitos tipos de arquivos
+    public function filesTypes(): HasMany
+    {
+        return $this->hasMany(FileType::class);
+    }
+
+    // Uma empresa pode ter muitos clientes
+    public function clients(): HasMany
+    {
+        return $this->hasMany(Client::class);
+    }
+
+    // Uma empresa pode ter muitos fornecedores
+    public function providers(): HasMany
+    {
+        return $this->hasMany(Provider::class);
+    }
+
+    // Uma empresa pode ter muitas categorias
+    public function categories(): HasMany
+    {
+        return $this->hasMany(Category::class);
+    }
+
+    // Uma empresa pode ter muitos produtos
+    public function products(): HasMany
+    {
+        return $this->hasMany(Product::class);
     }
 }
