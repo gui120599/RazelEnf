@@ -14,7 +14,7 @@ class Client extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'company_id',
+        'team_id',
         'name',
         'federalTaxNumber',
         'email',
@@ -33,10 +33,6 @@ class Client extends Model
     // 'personType'  => PersonType::class,
     // 'taxRegime'   => TaxRegime::class,
 
-    public function company(): BelongsTo
-    {
-        return $this->belongsTo(Company::class);
-    }
 
     public function users(): BelongsToMany
     {
@@ -48,8 +44,5 @@ class Client extends Model
         return $this->hasMany(ClientAddress::class);
     }
 
-    public function files(): HasMany
-    {
-        return $this->hasMany(FileClient::class);
-    }
+
 }

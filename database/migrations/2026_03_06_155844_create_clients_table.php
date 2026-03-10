@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('company_id')->constrained('companies'); // Empresa associada ao cliente
+            $table->foreignId('team_id')->constrained('teams'); // Empresa associada ao cliente
             $table->string('name'); // Nome do cliente
             $table->integer('federalTaxNumber')->nullable(); // CPF ou CNPJ do cliente
             $table->string('email')->nullable(); // Email do cliente

@@ -13,7 +13,7 @@ class Product extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'company_id',
+        'team_id',
         'name',
         'description',
         'is_menu',
@@ -54,9 +54,9 @@ class Product extends Model
         // 'unit' => ProductUnit::class,
     ];
 
-    public function company(): BelongsTo
+    public function team(): BelongsTo
     {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(Team::class);
     }
 
     public function category(): BelongsTo

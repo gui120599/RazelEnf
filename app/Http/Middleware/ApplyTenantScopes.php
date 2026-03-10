@@ -12,10 +12,7 @@ class ApplyTenantScopes
 {
     public function handle(Request $request, Closure $next)
     {
-        CompanyCertificate::addGlobalScope(
-            'tenant',
-            fn (Builder $query) => $query->whereBelongsTo(Filament::getTenant()),
-        );
+        
 
         return $next($request);
     }

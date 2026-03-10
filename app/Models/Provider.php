@@ -13,7 +13,7 @@ class Provider extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'company_id',
+        'team_id',
         'name',
         'federalTaxNumber',
         'email',
@@ -42,13 +42,4 @@ class Provider extends Model
     // 'personType'  => PersonType::class,
     // 'taxRegime'   => TaxRegime::class,
 
-    public function company(): BelongsTo
-    {
-        return $this->belongsTo(Company::class);
-    }
-
-    public function files(): HasMany
-    {
-        return $this->hasMany(FileProvider::class);
-    }
 }

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('company_id')->constrained('companies'); // Empresa associada à categoria
+            $table->foreignId('team_id')->constrained('teams'); // Empresa associada à categoria
             $table->string('name');
             $table->text('description')->nullable();
             $table->string('image')->nullable(); // URL da imagem da categoria

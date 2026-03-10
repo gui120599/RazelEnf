@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('company_id')->constrained('companies'); // Empresa associada ao produto
+            $table->foreignId('team_id')->constrained('teams'); // Empresa associada ao produto
             $table->string('name'); // Nome do produto
             $table->string('description'); // Descrição do produto
             $table->boolean('is_menu')->default(false); // Indica se o produto é do cardápio

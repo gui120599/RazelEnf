@@ -53,36 +53,27 @@ class User extends Authenticatable implements HasTenants
         ];
     }
 
-
-    /**
-     * The companies that belong to the user.
-     *
-     * @return BelongsToMany
-     */
-    public function companies(): BelongsToMany
+    public function teams(): BelongsToMany
     {
-        return $this->belongsToMany(Company::class);
+        return $this->belongsToMany(Team::class);
     }
 
-    /**
-     * Get the tenants (companies) associated with the user.
-     *
-     * @param Panel $panel
-     * @return array<Company>|Collection<Company>
-     */
     public function getTenants(Panel $panel): Collection
     {
-        return $this->companies;
+        return $this->teams;
     }
 
-    /**
-     * Determine if the user can access the given tenant (company).
-     *
-     * @param Model $tenant
-     * @return bool
-     */
     public function canAccessTenant(Model $tenant): bool
     {
-        return $this->companies()->whereKey($tenant)->exists();
+        return $this->teams()->whereKey($tenant)->exists();
+    }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        if ($panel->getId() === 'admin') {
+            return $this->is_superAdmin;
+        }
+
+        return true;
     }
 }

@@ -13,7 +13,7 @@ class Category extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'company_id',
+        'team_id',
         'name',
         'description',
         'image',
@@ -27,9 +27,9 @@ class Category extends Model
         'order_menu' => 'integer',
     ];
 
-    public function company(): BelongsTo
+    public function team(): BelongsTo
     {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(Team::class);
     }
 
     public function products(): HasMany

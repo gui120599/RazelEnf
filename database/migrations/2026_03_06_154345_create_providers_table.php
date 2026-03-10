@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('providers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('company_id')->constrained('companies'); // Empresa associada ao fornecedor
+            $table->foreignId('team_id')->constrained('teams'); // Empresa associada ao fornecedor
             $table->string('name'); // Nome do fornecedor
             $table->integer('federalTaxNumber')->nullable(); // CPF ou CNPJ do fornecedor
             $table->string('email')->nullable(); // Email do fornecedor

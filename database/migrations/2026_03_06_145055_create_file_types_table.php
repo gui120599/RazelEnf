@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('file_types', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('company_id')->constrained('companies'); // Empresa associada ao tipo de arquivo
+            $table->foreignId('team_id')->constrained('teams'); // Empresa associada ao tipo de arquivo
             $table->string('name')->unique(); // Nome do tipo de arquivo, ex.: 'invoice', 'contract', 'receipt', etc.
             $table->timestamps();
             $table->softDeletes();
