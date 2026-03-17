@@ -6,10 +6,13 @@ use App\Filament\Pages\Tenancy\EditCompanyProfile;
 use App\Filament\Pages\Tenancy\EditTeamProfile;
 use App\Filament\Pages\Tenancy\RegisterCompany;
 use App\Filament\Pages\Tenancy\RegisterTeam;
+use App\Filament\Resources\Products\Pages\CreateProduct;
 use App\Http\Middleware\ApplyTenantScopes;
 use App\Http\Middleware\EnsureSuperadmin;
 use App\Models\Company;
+use App\Models\Product;
 use App\Models\Team;
+use Filament\Actions\Action;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -35,11 +38,17 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->registration()
             ->login()
             ->colors([
-                'primary' => Color::Amber,
+                'secondary' => Color::hex('#FF6600'),
+                'primary' => Color::hex('#003366'),
             ])
+            ->passwordReset()
+            ->favicon(asset('favicon.ico'))
+            ->sidebarCollapsibleOnDesktop()
+            ->brandLogo(asset('logos/LOGO HORIZONTAL.PNG'))
+            ->darkModeBrandLogo(asset('logos/LOGO HORIZONTAL.PNG'))
+            ->brandLogoHeight('50px')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
             ->pages([
@@ -60,15 +69,13 @@ class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
-                
+
             ])
             ->authMiddleware([
                 Authenticate::class,
                 EnsureSuperadmin::class,
-            ]); 
-            /*->tenant(Team::class)
-            ->tenantRegistration(RegisterTeam::class)
-            ->tenantProfile(EditTeamProfile::class);*/
-            
+            ])
+            ->topbar(false)
+            ->viteTheme('resources/css/filament/admin/theme.css');
     }
 }

@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use Filament\Models\Contracts\HasAvatar;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
-class Team extends Model
+class Team extends Model implements HasAvatar
 {
     protected $fillable = [
         'name',
@@ -25,6 +27,13 @@ class Team extends Model
         'country',
     ];
 
+    public function getFilamentAvatarUrl(): ?string
+    {
+        return $this->image
+            ? Storage::url($this->image)
+            : null;
+    }
+
     public function members()
     {
         return $this->belongsToMany(User::class);
@@ -43,5 +52,15 @@ class Team extends Model
     public function getRouteKeyName()
     {
         return "slug";
+    }
+
+    public function certificates()
+    {
+        return $this->hasMany(TeamCertificate::class);
+    }
+
+    public function stateTaxes()
+    {
+        return $this->hasMany(TeamStateTax::class);
     }
 }

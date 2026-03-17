@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('image')->nullable(); // Imagem da organização
             $table->string('accountId')->nullable(); // ID da conta associada
             $table->string('tradeName')->nullable(); // Nome fantasia
-            $table->bigInteger('federalTaxNumber')->nullable(); // CNPJ
+            $table->string('federalTaxNumber')->nullable(); // CNPJ
             $table->enum('taxRegime', ['isento', 'microempreendedorIndividual', 'simplesNacional', 'lucroPresumido', 'lucroReal', 'none'])->nullable(); // Regime tributário
 
             $table->string('state')->nullable(); // Estado, ex.: SP, RJ, AC, padrão ISO 3166-2 ALFA 2.

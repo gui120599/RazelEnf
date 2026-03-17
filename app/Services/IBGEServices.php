@@ -15,7 +15,7 @@ class IBGEServices
             'Accept' => 'application/json',
         ])
             ->get('https://viacep.com.br/ws/' . $search . '/json/');
-        if ($reponse->failed) {
+        if ($reponse->failed()) {
             return [];
         }
         return $reponse->json ?? [];
@@ -23,31 +23,30 @@ class IBGEServices
 
     public static function ufs(): array
     {
-        $response = Http::withHeaders([
-            'Accept' => 'application/json',
-        ])
-            ->get('https://servicodados.ibge.gov.br/api/v1/localidades/estados');
+        return cache()->remember('ibge_ufs', now()->addDay(), function () {
+            $response = Http::withHeaders([
+                'Accept' => 'application/json',
+            ])->get('https://servicodados.ibge.gov.br/api/v1/localidades/estados');
 
-        // Verifica se a requisição falhou e retorna um array vazio.
-        if ($response->failed) {
-            return [];
-        }
-
-        // Decodifica a resposta JSON para um array PHP.
-        $estados = $response->json ?? [];
-
-        // Prepara o array no formato esperado pelo Filament: ['sigla' => 'nome']
-        $opcoes = [];
-
-        if (is_array($estados)) {
-            foreach ($estados as $estado) {
-                // Usa 'sigla' como chave (o valor que será salvo) e 'nome' como label.
-                $opcoes[$estado['sigla']] = $estado['nome'];
+            if ($response->failed()) {
+                return [];
             }
-        }
 
-        // Retorna o array formatado (ex: ['SP' => 'São Paulo', 'RJ' => 'Rio de Janeiro'])
-        return $opcoes;
+            $estados = $response->json() ?? []; // <- json() com parênteses, não propriedade
+
+            $opcoes = [];
+
+            if (is_array($estados)) {
+                foreach ($estados as $estado) {
+                    $opcoes[$estado['sigla']] = $estado['nome'];
+                }
+            }
+
+            // Ordena alfabeticamente pelo nome do estado
+            asort($opcoes);
+
+            return $opcoes;
+        });
     }
 
     public static function cidadesPorUf(string $uf): array
@@ -59,7 +58,7 @@ class IBGEServices
             // Note o uso da variável $uf na URL (interpolação de string)
             ->get("https://servicodados.ibge.gov.br/api/v1/localidades/estados/{$uf}/municipios?orderBy=nome");
 
-        if ($response->failed) {
+        if ($response->failed()) {
             return [];
         }
 

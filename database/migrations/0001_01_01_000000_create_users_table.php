@@ -19,10 +19,11 @@ return new class extends Migration
             $table->string('email')->unique(); 
             $table->timestamp('email_verified_at')->nullable(); 
             $table->string('password'); 
-            $table->string('avatar')->nullable(); // URL do avatar do usuário
+            $table->string('avatar_url')->nullable(); // URL do avatar do usuário
             $table->string('is_superAdmin')->default(false); // Indica se o usuário é um super administrador
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes(); // Adiciona a coluna deleted_at para soft deletes
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

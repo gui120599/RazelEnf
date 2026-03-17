@@ -1,0 +1,57 @@
+@import '../../../../vendor/filament/filament/resources/css/theme.css';
+
+@source '../../../../app/Filament/Company/**/*';
+@source '../../../../resources/views/filament/company/**/*';
+
+/** header/logo */
+.fi-sidebar-header{
+    @apply bg-primary-600 ring-primary-500;
+}
+
+/** sidebar */
+.fi-sidebar {
+    @apply bg-gradient-to-b from-primary-600 via-primary-500 to-primary-700 dark:via-gray-700 dark:from-gray-950 dark:to-gray-800 dark:bg-transparent;
+}
+
+.fi-sidebar-group div span {
+    @apply text-white;
+}
+
+.fi-sidebar-group .fi-icon-btn {
+    @apply text-sky-300;
+}
+
+.fi-sidebar-group .fi-icon-btn:hover {
+    @apply text-white;
+}
+
+.fi-sidebar-item-icon {
+    @apply text-sky-300
+}
+
+.fi-sidebar-item a {
+    @apply text-white;
+}
+
+.fi-sidebar-item-label {
+    @apply text-sky-800 dark:text-primary-300 font-extrabold;
+}
+
+.fi-sidebar-item a:hover {
+    @apply text-primary-50 bg-primary-300 dark:bg-primary-700/60 dark:text-primary-300;
+}
+
+/** main content */
+.fi-main-ctn {
+    @apply bg-primary-50/50 dark:bg-transparent;
+}
+
+/** badge */
+.fi-badge{
+    @apply rounded-full;
+}
+
+/** button */
+.fi-btn {
+    @apply ring-transparent shadow-gray-400 dark:shadow-gray-950;
+}

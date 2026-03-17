@@ -9,10 +9,12 @@ use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\NavigationGroup;
 use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\Support\Icons\Heroicon;
 use Filament\Widgets\AccountWidget;
 use Filament\Widgets\FilamentInfoWidget;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
@@ -30,9 +32,16 @@ class CompanyPanelProvider extends PanelProvider
         return $panel
             ->id('company')
             ->path('company')
+            ->sidebarCollapsibleOnDesktop()
+            ->topbar(false)
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::hex('#FF6600'),
+                'secondary' => Color::hex('#003366'),
             ])
+            ->font('Nunito')
+            ->viteTheme('resources/css/filament/company/theme.css')
+            ->brandLogo(asset('logos/LOGO HORIZONTAL.PNG'))
+            ->brandLogoHeight('3rem')
             ->discoverResources(in: app_path('Filament/Company/Resources'), for: 'App\Filament\Company\Resources')
             ->discoverPages(in: app_path('Filament/Company/Pages'), for: 'App\Filament\Company\Pages')
             ->pages([
@@ -59,9 +68,6 @@ class CompanyPanelProvider extends PanelProvider
             ])
             ->login()
             ->tenant(Team::class)
-            ->tenantProfile(EditTeamProfile::class)
-            /*->tenantMiddleware([
-                SetUserTeamTenant::class,
-            ])*/;
+            ->tenantProfile(EditTeamProfile::class);
     }
 }
