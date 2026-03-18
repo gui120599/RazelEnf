@@ -89,34 +89,49 @@ class CategoryResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->defaultSort('order_menu', 'asc')
             ->recordTitleAttribute('name')
             ->reorderable('order_menu')
             ->columns([
                 TextColumn::make('name')
-                    ->searchable(),
-                ImageColumn::make('image'),
-                TextColumn::make('icon')
-                    ->searchable(),
+                    ->label(__('Name'))
+                    ->searchable()
+                    ->sortable(),
                 IconColumn::make('is_menu')
-                    ->boolean(),
+                    ->label(__('Show in menu'))
+                    ->boolean()
+                    ->sortable(),
+                ImageColumn::make('image')
+                    ->label(__('Image'))
+                    ->rounded(),
+                TextColumn::make('icon')
+                    ->label(__('Icon'))
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('order_menu')
+                    ->label(__('Order'))
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('created_at')
+                    ->label(__('Created At'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
+                    ->label(__('Updated At'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('deleted_at')
+                    ->label(__('Deleted At'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 TrashedFilter::make(),
+                // Example custom status filter
+                // Filter::make('is_menu')->query(fn(Builder $query) => $query->where('is_menu', true))->label(__('Menu categories')),
             ])
             ->deferColumnManager(false)
             ->recordActions([

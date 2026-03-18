@@ -31,6 +31,7 @@ class User extends Authenticatable implements HasTenants, HasAvatar
         'name',
         'avatar_url',
         'email',
+        'is_superAdmin',
         'password',
     ];
 
@@ -57,14 +58,20 @@ class User extends Authenticatable implements HasTenants, HasAvatar
             'deleted_at' => 'datetime',
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_superAdmin' => 'boolean'
         ];
     }
 
     public function getFilamentAvatarUrl(): ?string
     {
         return $this->avatar_url
-        ? Storage::url($this->avatar_url) 
-        : null;
+            ? Storage::url($this->avatar_url)
+            : null;
+    }
+
+    public function isSuperAdmin(): bool
+    {
+        return $this->is_superAdmin === true;
     }
 
     public function teams(): BelongsToMany

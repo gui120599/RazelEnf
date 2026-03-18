@@ -1,19 +1,17 @@
 <?php
 
-namespace App\Filament\Company\Resources\Products\Tables;
+namespace App\Filament\Company\Resources\Clients\Tables;
 
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
-use Filament\Tables\Columns\IconColumn;
-use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 
-class ProductsTable
+class ClientsTable
 {
     public static function configure(Table $table): Table
     {
@@ -25,32 +23,34 @@ class ProductsTable
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('name')
-                    ->label(__('Product'))
+                    ->label(__('Client'))
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('category.name')
-                    ->label(__('Category'))
+                TextColumn::make('federalTaxNumber')
+                    ->label(__('CPF/CNPJ'))
                     ->searchable()
                     ->sortable(),
-                IconColumn::make('is_menu')
-                    ->label(__('Menu'))
-                    ->boolean()
-                    ->sortable(),
-                TextColumn::make('type')
-                    ->label(__('Type'))
-                    ->searchable()
-                    ->sortable(),
-                IconColumn::make('inventoryControl')
-                    ->label(__('Inventory Control'))
-                    ->boolean()
-                    ->sortable(),
-                TextColumn::make('unit')
-                    ->label(__('Unit'))
+                TextColumn::make('email')
+                    ->label(__('Email'))
                     ->searchable(),
-                TextColumn::make('priceSale')
-                    ->label(__('Sale Price'))
-                    ->numeric()
+                TextColumn::make('phone')
+                    ->label(__('Phone'))
+                    ->searchable(),
+                TextColumn::make('personType')
+                    /*->enum([
+                        'pf' => __('Individual'),
+                        'pj' => __('Legal Entity'),
+                    ])*/
                     ->sortable(),
+                TextColumn::make('tradeName')
+                    ->label(__('Trade Name'))
+                    ->searchable(),
+                TextColumn::make('taxRegime')
+                    ->label(__('Tax Regime'))
+                    ->searchable(),
+                TextColumn::make('stateTaxNumber')
+                    ->label(__('State Tax Number'))
+                    ->searchable(),
                 TextColumn::make('created_at')
                     ->label(__('Created At'))
                     ->dateTime()
@@ -69,6 +69,8 @@ class ProductsTable
             ])
             ->filters([
                 TrashedFilter::make(),
+                // additional filter: person type
+                // Filter::make('personType')->query(fn (Builder $query, $value) => $query->where('personType', $value))->options([ 'pf' => __('Individual'), 'pj' => __('Legal Entity') ]),
             ])
             ->recordActions([
                 EditAction::make(),

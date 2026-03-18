@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('team_id')->constrained('teams'); // Empresa associada ao cliente
             $table->string('name'); // Nome do cliente
-            $table->integer('federalTaxNumber')->nullable(); // CPF ou CNPJ do cliente
+            $table->string('federalTaxNumber')->nullable(); // CPF ou CNPJ do cliente
             $table->string('email')->nullable(); // Email do cliente
             $table->string('phone')->nullable(); // Telefone do cliente
             

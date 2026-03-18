@@ -25,10 +25,6 @@ class Client extends Model
         'stateTaxNumber',
     ];
 
-    protected $casts = [
-        'federalTaxNumber' => 'integer',
-    ];
-
     // Enums sugeridos (Laravel 9+)
     // 'personType'  => PersonType::class,
     // 'taxRegime'   => TaxRegime::class,
@@ -44,5 +40,8 @@ class Client extends Model
         return $this->hasMany(ClientAddress::class);
     }
 
-
+    public function team(): BelongsTo
+    {
+        return $this->belongsTo(Team::class);
+    }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\Teams\Schemas;
 
+use App\Enums\SpecialTaxRegimeEnum;
+use App\Enums\TaxRegimeEnum;
 use App\Services\IBGEServices;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
@@ -9,6 +11,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Illuminate\Validation\Rule;
@@ -33,6 +36,7 @@ class TeamForm
                                     ->required()
                                     ->columnSpan('full'),
                                 TextInput::make('tradeName')
+                                    ->disabledOn(['edit'])
                                     ->translateLabel()
                                     ->live(onBlur: true)
                                     ->afterStateUpdated(function (Set $set, $state) {
@@ -74,6 +78,7 @@ class TeamForm
                     ->schema([
                         Document::make('federalTaxNumber')
                             ->cnpj()
+                            ->disabledOn(['edit'])
                             ->mutateStateForValidationUsing(fn($state) => preg_replace('/\D/', '', $state))
                             ->dehydrateStateUsing(fn($state) => preg_replace('/\D/', '', $state))
                             ->rule(function ($record) {
@@ -84,14 +89,7 @@ class TeamForm
                             ->columnSpan(1),
                         Select::make('taxRegime')
                             ->translateLabel()
-                            ->options([
-                                'isento'                     => 'Isento',
-                                'microempreendedorIndividual' => 'Microempreendedor Individual',
-                                'simplesNacional'             => 'Simples Nacional',
-                                'lucroPresumido'              => 'Lucro Presumido',
-                                'lucroReal'                  => 'Lucro Real',
-                                'none'                       => 'Nenhum',
-                            ])
+                            ->options(TaxRegimeEnum::options())
                             ->columnSpan(1),
                     ]),
 
@@ -102,6 +100,28 @@ class TeamForm
                     ->schema([
                         TextInput::make('postalCode')
                             ->translateLabel()
+                            ->mask('99999-999')
+                            ->live() // Garante que as mudanças no campo disparem a ação.
+                            ->afterStateUpdated(function ($state, callable $set) {
+                                $cepLimpo = preg_replace('/[^0-9]/', '', $state);
+                                if (strlen($cepLimpo) === 8) {
+                                    $dadosEndereco = IBGEServices::buscaCep($cepLimpo);
+
+                                    if (!empty($dadosEndereco)) {
+                                        $set('street', $dadosEndereco['logradouro'] ?? '');
+                                        $set('district', $dadosEndereco['bairro'] ?? '');
+                                        $set('state', $dadosEndereco['uf'] ?? '');
+                                        $set('nameCity', $dadosEndereco['localidade'] ?? '');
+                                        $set('codeCity', $dadosEndereco['ibge'] ?? '');
+                                    } else {
+                                        $set('street', '');
+                                        $set('district', '');
+                                        $set('state', '');
+                                        $set('nameCity', '');
+                                        $set('codeCity', '');
+                                    }
+                                }
+                            })
                             ->columnSpan(1),
                         TextInput::make('street')
                             ->translateLabel()
@@ -110,20 +130,36 @@ class TeamForm
                             ->translateLabel()
                             ->default('S/N')
                             ->columnSpan(1),
-                        TextInput::make('district')
-                            ->translateLabel()
-                            ->columnSpan(2),
-                        TextInput::make('nameCity')
-                            ->translateLabel()
-                            ->columnSpan(1),
                         TextInput::make('codeCity')
                             ->translateLabel()
                             ->columnSpan(1),
-                        TextInput::make('state')
+                        TextInput::make('district')
                             ->translateLabel()
+                            ->columnSpan(2),
+                        Select::make('state')
+                            ->translateLabel()
+                            ->options(fn() => IBGEServices::ufs())
+                            ->preload()
+                            ->searchable()
+                            ->live() // <- necessário para o nameCity reagir
+                            ->afterStateUpdated(fn(Set $set) => $set('nameCity', null)) // limpa cidade ao trocar estado
+                            ->columnSpan(1),
+
+                        Select::make('nameCity')
+                            ->translateLabel()
+                            ->preload()
+                            ->searchable()
+                            ->options(function (Get $get) {
+                                $uf = $get('state');
+                                if (empty($uf)) {
+                                    return [];
+                                }
+                                return IBGEServices::cidadesPorUf($uf);
+                            })
                             ->columnSpan(1),
                         TextInput::make('country')
                             ->translateLabel()
+                            ->default('Brasil')
                             ->columnSpan(1),
                         TextInput::make('additionalInformation')
                             ->translateLabel()
@@ -188,16 +224,9 @@ class TeamForm
                                     ->columnSpan(1),
                                 Select::make('specialTaxRegime')
                                     ->translateLabel()
-                                    ->options([
-                                        'automatico'                          => 'Automático',
-                                        'nenhum'                              => 'Nenhum',
-                                        'microempresaMunicipal'               => 'Microempresa Municipal',
-                                        'estimativa'                          => 'Estimativa',
-                                        'sociedadeDeProfissionais'            => 'Sociedade de Profissionais',
-                                        'cooperativa'                         => 'Cooperativa',
-                                        'microempreendedorIndividual'         => 'Microempreendedor Individual',
-                                        'microempresarioEmpresaPequenoPorte'  => 'Microempresário e Empresa de Pequeno Porte',
-                                    ])
+                                    ->preload()
+                                    ->searchable()
+                                    ->options(SpecialTaxRegimeEnum::options())
                                     ->columnSpan(1),
                                 Select::make('type')
                                     ->translateLabel()

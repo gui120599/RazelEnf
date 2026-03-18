@@ -70,7 +70,7 @@ class UserResource extends Resource
                             ->required(fn(string $operation): bool => $operation === 'create')
                             ->dehydrated(fn(?string $state) => filled($state))
                             ->confirmed()
-                            ->autocomplete(false),
+                            ->autocomplete('new-password'),
                         TextInput::make('password_confirmation')
                             ->translateLabel()
                             ->password()

@@ -63,4 +63,9 @@ class Team extends Model implements HasAvatar
     {
         return $this->hasMany(TeamStateTax::class);
     }
+
+    public function clients()
+    {
+        return $this->hasMany(Client::class);
+    }
 }
