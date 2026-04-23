@@ -18,12 +18,12 @@ return new class extends Migration
             $table->string('federalTaxNumber')->nullable(); // CPF ou CNPJ do cliente
             $table->string('email')->nullable(); // Email do cliente
             $table->string('phone')->nullable(); // Telefone do cliente
-            
+
             $table->string('personType')->nullable(); // Tipo de pessoa: 'fisica' ou 'juridica'
             $table->string('tradeName')->nullable(); // Nome fantasia do cliente
             $table->string('taxRegime')->nullable(); // Regime tributário do cliente, ex.: 'simplesNacional', 'lucroPresumido', etc.
             $table->string('stateTaxNumber')->nullable(); // Inscrição estadual do cliente
-            
+
             $table->timestamps();
             $table->softDeletes();
         });
@@ -64,8 +64,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('clients');
-        Schema::dropIfExists('client_user');
+        Schema::dropIfExists('file_client');
         Schema::dropIfExists('client_addresses');
+        Schema::dropIfExists('client_user');
+        Schema::dropIfExists('clients');
     }
 };

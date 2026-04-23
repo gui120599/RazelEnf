@@ -93,9 +93,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('teams');
-        Schema::dropIfExists('team_certificates');
-        Schema::dropIfExists('team_state_taxes');
         Schema::dropIfExists('team_user');
+        Schema::dropIfExists('team_state_taxes');
+        Schema::dropIfExists('team_certificates');
+        Schema::dropIfExists('teams');
     }
 };

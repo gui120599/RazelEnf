@@ -274,5 +274,12 @@
   "Phone": "Celular",
   "State tax number": "Inscrição Estadual",
   "Client": "Cliente",
-  "Clientes": "Clientes"
+  "Clientes": "Clientes",
+  "Classification description": "Descrição da classificação",
+  "Classification descriptions": "Descrições da classificação",
+  "Classification of adverse events": "Classificação de eventos adversos",
+  "Classification of adverse events descriptions": "Classificação de eventos adversos descrições",
+  "Classification of adverse events description": "Classificação de eventos adversos descrição",
+  "Add description": "Adicionar descrição"
+  
 }

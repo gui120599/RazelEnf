@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('seasoning')->nullable(); // Ex: 'Muçarela, tomate, orégano'
             $table->string('image')->nullable(); // Imagem do produto
             $table->string('unit')->nullable(); // Unidade de medida, ex.: 'un', 'kg', 'l' ENUMS DO LARAVEL
-            $table->decimal('priceSale',10,2)->nullable(); // Preço de venda
+            $table->decimal('priceSale', 10, 2)->nullable(); // Preço de venda
             $table->string('ncm')->nullable(); // Nomenclatura Comum do Mercosul
             $table->string('cest')->nullable()->default('0000000'); // Código Especificador da Substituição Tributária
             $table->string('ean')->nullable()->default('SEM GTIN'); // Código de Barras (GTIN)
@@ -33,10 +33,10 @@ return new class extends Migration
             $table->string('csosn')->nullable(); // Código de Situação da Operação no Simples Nacional
             $table->string('origin')->nullable(); // Origem do produto
             $table->string('cst')->nullable(); // Código de Situação Tributária ICMS
-            $table->decimal('icmsPercentage',10,2)->nullable(); // Alíquota do ICMS
-            $table->decimal('cofinsPercentage',10,2)->nullable(); // Alíquota do COFINS
-            $table->decimal('pisPercentage',10,2)->nullable(); // Alíquota do PIS
-            $table->decimal('reductionIcmsPercentage',10,2)->nullable(); // Alíquota de redução do ICMS
+            $table->decimal('icmsPercentage', 10, 2)->nullable(); // Alíquota do ICMS
+            $table->decimal('cofinsPercentage', 10, 2)->nullable(); // Alíquota do COFINS
+            $table->decimal('pisPercentage', 10, 2)->nullable(); // Alíquota do PIS
+            $table->decimal('reductionIcmsPercentage', 10, 2)->nullable(); // Alíquota de redução do ICMS
             $table->timestamps();
             $table->softDeletes();
         });
@@ -54,6 +54,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('product_images');
         Schema::dropIfExists('products');
     }
 };

@@ -55,6 +55,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('file_provider');
         Schema::dropIfExists('providers');
     }
 };
