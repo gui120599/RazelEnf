@@ -6,6 +6,7 @@ use App\Enums\SpecialTaxRegimeEnum;
 use App\Enums\TaxRegimeEnum;
 use App\Services\IBGEServices;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -43,9 +44,6 @@ class TeamForm
                                         $set('slug', str($state)->slug());
                                     })
                                     ->columnSpan('full'),
-                                TextInput::make('accountId')
-                                    ->translateLabel()
-                                    ->columnSpan(1),
                                 TextInput::make('slug')
                                     ->disabled()
                                     ->dehydrated()
@@ -95,7 +93,7 @@ class TeamForm
 
                 Section::make(__('Address'))
                     ->icon('heroicon-o-map')
-                    ->columns(3)
+                    ->columns(6)
                     ->columnSpanFull()
                     ->schema([
                         TextInput::make('postalCode')
@@ -125,14 +123,14 @@ class TeamForm
                             ->columnSpan(1),
                         TextInput::make('street')
                             ->translateLabel()
-                            ->columnSpan(2),
+                            ->columnSpan(4),
                         TextInput::make('number')
                             ->translateLabel()
                             ->default('S/N')
                             ->columnSpan(1),
-                        TextInput::make('codeCity')
+                        TextInput::make('additionalInformation')
                             ->translateLabel()
-                            ->columnSpan(1),
+                            ->columnSpan(4),
                         TextInput::make('district')
                             ->translateLabel()
                             ->columnSpan(2),
@@ -143,8 +141,7 @@ class TeamForm
                             ->searchable()
                             ->live() // <- necessário para o nameCity reagir
                             ->afterStateUpdated(fn(Set $set) => $set('nameCity', null)) // limpa cidade ao trocar estado
-                            ->columnSpan(1),
-
+                            ->columnSpan(2),
                         Select::make('nameCity')
                             ->translateLabel()
                             ->preload()
@@ -156,14 +153,14 @@ class TeamForm
                                 }
                                 return IBGEServices::cidadesPorUf($uf);
                             })
-                            ->columnSpan(1),
+                            ->columnSpan(2),
                         TextInput::make('country')
                             ->translateLabel()
                             ->default('Brasil')
-                            ->columnSpan(1),
-                        TextInput::make('additionalInformation')
-                            ->translateLabel()
-                            ->columnSpan('full'),
+                            ->columnSpan(2),
+                        Hidden::make('codeCity')
+                            ->dehydrated(),
+
                     ]),
 
                 Section::make(__('Digital certificate'))
@@ -174,6 +171,7 @@ class TeamForm
                             ->relationship('certificates')
                             ->translateLabel()
                             ->addActionLabel(__('Add certificate'))
+                            ->defaultItems(0)
                             ->columns(2)
                             ->schema([
                                 FileUpload::make('file')
@@ -202,6 +200,7 @@ class TeamForm
                             ->relationship('stateTaxes')
                             ->translateLabel()
                             ->addActionLabel(__('Add state tax'))
+                            ->defaultItems(0)
                             ->columns(3)
                             ->schema([
                                 Select::make('code')

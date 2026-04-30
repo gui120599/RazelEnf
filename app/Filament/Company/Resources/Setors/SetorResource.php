@@ -28,10 +28,8 @@ class SetorResource extends Resource
     {
         return $schema
             ->components([
-                TextInput::make('team_id')
-                    ->required()
-                    ->numeric(),
                 TextInput::make('name')
+                    ->translateLabel()
                     ->required(),
             ]);
     }
@@ -41,10 +39,8 @@ class SetorResource extends Resource
         return $table
             ->recordTitleAttribute('name')
             ->columns([
-                TextColumn::make('team_id')
-                    ->numeric()
-                    ->sortable(),
                 TextColumn::make('name')
+                    ->translateLabel()
                     ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()
