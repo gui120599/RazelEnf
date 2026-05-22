@@ -37,12 +37,12 @@ class CompanyPanelProvider extends PanelProvider
             ->sidebarCollapsibleOnDesktop()
             ->topbar(false)
             ->colors([
-                'primary' => Color::hex('#FF6600'),
-                'secondary' => Color::hex('#003366'),
+                'primary' => Color::hex('#00A896'),
+                'secondary' => Color::hex('#2C3E50'),
             ])
             ->font('Nunito')
             ->viteTheme('resources/css/filament/company/theme.css')
-            ->brandLogo(asset('logos/LOGO HORIZONTAL.PNG'))
+            ->brandLogo(asset('logos/LOGO RAZEL ENF H.png'))
             ->brandLogoHeight('3rem')
             ->discoverResources(in: app_path('Filament/Company/Resources'), for: 'App\Filament\Company\Resources')
             ->discoverPages(in: app_path('Filament/Company/Pages'), for: 'App\Filament\Company\Pages')

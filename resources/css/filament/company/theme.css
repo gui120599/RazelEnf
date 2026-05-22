@@ -5,12 +5,12 @@
 
 /** header/logo */
 .fi-sidebar-header{
-    @apply bg-primary-600 ring-primary-500;
+    @apply bg-primary-100 ring-primary-500;
 }
 
 /** sidebar */
 .fi-sidebar {
-    @apply bg-gradient-to-b from-primary-600 via-primary-500 to-primary-700 dark:via-gray-700 dark:from-gray-950 dark:to-gray-800 dark:bg-transparent;
+    @apply bg-gradient-to-b from-primary-100 via-primary-100 to-primary-300 dark:via-gray-700 dark:from-gray-950 dark:to-gray-800 dark:bg-transparent;
 }
 
 .fi-sidebar-group div span {
@@ -18,7 +18,7 @@
 }
 
 .fi-sidebar-group .fi-icon-btn {
-    @apply text-sky-300;
+    @apply text-sky-800;
 }
 
 .fi-sidebar-group .fi-icon-btn:hover {
@@ -26,7 +26,7 @@
 }
 
 .fi-sidebar-item-icon {
-    @apply text-sky-300
+    @apply text-sky-800
 }
 
 .fi-sidebar-item a {
@@ -34,7 +34,7 @@
 }
 
 .fi-sidebar-item-label {
-    @apply text-sky-800 dark:text-primary-300 font-extrabold;
+    @apply text-sky-900 dark:text-primary-100 font-extrabold;
 }
 
 .fi-sidebar-item a:hover {

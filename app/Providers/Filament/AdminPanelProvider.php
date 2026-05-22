@@ -48,9 +48,9 @@ class AdminPanelProvider extends PanelProvider
             ->passwordReset()
             ->favicon(asset('favicon.ico'))
             ->sidebarCollapsibleOnDesktop()
-            ->brandLogo(asset('logos/LOGO HORIZONTAL.PNG'))
-            ->darkModeBrandLogo(asset('logos/LOGO HORIZONTAL.PNG'))
-            ->brandLogoHeight('50px')
+            ->brandLogo(asset('logos/LOGO RAZEL ENF.png'))
+            ->darkModeBrandLogo(asset('logos/LOGO RAZEL ENF.png'))
+            ->brandLogoHeight('8rem')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
             ->pages([
